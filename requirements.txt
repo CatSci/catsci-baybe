@@ -1,4 +1,3 @@
 pandas
 streamlit
-json
 baybe[chem,simulation]
