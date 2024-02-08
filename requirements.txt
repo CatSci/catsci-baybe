@@ -1,0 +1,5 @@
+pandas
+streamlit
+StringIO
+json
+baybe[chem,simulation]
