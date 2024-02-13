@@ -134,9 +134,9 @@ def main():
                         initial_recommender= strategy_functions_first[initial_recomender],
                         recommender=SequentialGreedyRecommender(
                             surrogate_model= strategy_functions_second[second_recomender], acquisition_function_cls=ACQ_FUNCTION
-                        ),)
+                        ),
                         # allow_repeated_recommendations=ALLOW_REPEATED_RECOMMENDATIONS,
-                        # allow_recommending_already_measured=ALLOW_RECOMMENDING_ALREADY_MEASURED)
+                        allow_recommending_already_measured=ALLOW_RECOMMENDING_ALREADY_MEASURED)
 
         if st.button('Create Scope'):
             with st.spinner('Wait for it...'):                    
