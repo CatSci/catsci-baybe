@@ -67,6 +67,7 @@ def create_objective_fields(num_objective_variables):
     for i in range(num_objective_variables):
         variable_name = st.text_input(f"Objective {i + 1} name:", placeholder = 'Yield')
         variable_values = st.text_input(f"Objective {i + 1} mode (comma-separated):", placeholder= "max")
+        # weights = st.number_input()
         values = [value.strip() for value in variable_values.split(',')]
 
         objective_dict[variable_name] = values
@@ -75,7 +76,7 @@ def create_objective_fields(num_objective_variables):
 
 
 def upload_file(key):
-    uploaded_files = st.file_uploader("Choose a JSON file", key = key)
+    uploaded_files = st.file_uploader("Choose a CSV file", key = key)
     
     if uploaded_files is not None and uploaded_files.name.split('.')[1] == 'json':
         stringio = StringIO(uploaded_files.getvalue().decode("utf-8"))
@@ -116,6 +117,11 @@ def main():
 
         num_objectives = st.number_input("How many **objective** variables do you have", min_value= 0, value= 0, key = 'obj')
         objective_dict = create_objective_fields(num_objectives)
+        objective_weights = st.text_input("Target Objective weights (comma-separated):", placeholder= "50,50")
+        vals = objective_weights.split(',')
+        weights = [int(value.strip()) for value in vals if value.strip().isdigit()]
+
+        
         initial_recomender = st.selectbox(
             'For the first recommendation, which strategy to use?',
             ('Random', 'Farthest Point Sampling', 'KMEANS Clustering'))
@@ -134,21 +140,8 @@ def main():
 
         if st.button('Create Scope'):
             with st.spinner('Wait for it...'):                    
-                campaign_json = create_campaign(categorical_variables_dict, numerical_variables_dict, objective_dict, strategy)
-                # campaign_recreate = Campaign.from_json(data)
-                # assert campaign_json == campaign_recreate
-                # st.write('yo')
+                campaign_json = create_campaign(categorical_variables_dict, numerical_variables_dict, objective_dict, strategy, weights)
                 st.download_button("Download", campaign_json, file_name= 'campaign.json')
-
-                # df = create_scope(variables_list= variables_list)
-                # st.data_editor(df)
-                # csv_data = df.to_csv(index=False, mode='w', header=list(variables_list.keys())).encode('utf-8')
-                # st.download_button(
-                #     label="Download CSV",
-                #     data=csv_data,
-                #     file_name='data.csv',
-                #     mime='text/csv'
-                # )
         
     with tab2:
         st.header("Recommend Reactions")

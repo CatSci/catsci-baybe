@@ -70,7 +70,7 @@ def convert_params(categorical_variables_dict, numerical_variables_dict, objecti
     return parameters, objectives
 
 
-def create_campaign(categorical_variables_dict, numerical_variables_dict, objective_dict, strategy):
+def create_campaign(categorical_variables_dict, numerical_variables_dict, objective_dict, strategy, weights):
     """_summary_
 
     Args:
@@ -88,7 +88,7 @@ def create_campaign(categorical_variables_dict, numerical_variables_dict, object
     else:
         mode = "SINGLE"
 
-    objective = Objective(mode= mode,targets=objectives)
+    objective = Objective(mode= mode,targets=objectives, weights= weights)
     campaign = Campaign(searchspace=searchspace,objective=objective, strategy= strategy)
 
     return campaign.to_json()
