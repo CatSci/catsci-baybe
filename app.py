@@ -122,18 +122,23 @@ def main():
         weights = [int(value.strip()) for value in vals if value.strip().isdigit()]
 
         
-        initial_recomender = st.selectbox(
+        initial_recommender = st.selectbox(
             'For the first recommendation, which strategy to use?',
             ('Random', 'Farthest Point Sampling', 'KMEANS Clustering'))
         
-        second_recomender = st.selectbox(
+        second_recommender = st.selectbox(
             "For the second recommendation, which strategy to use?",
             ("Gaussian Process", "Random Forest","NGBoost","Bayesian Linear"))
         
+        # initial_recommender = strategy_functions_first[initial_recomender]
+        # sequential_recommender = SequentialGreedyRecommender(
+        #     surrogate_model=strategy_functions_second[second_recomender],
+        #     acquisition_function_cls=ACQ_FUNCTION)
+            
         strategy = TwoPhaseStrategy(
-                        initial_recommender= strategy_functions_first[initial_recomender],
+                        initial_recommender= strategy_functions_first[initial_recommender],
                         recommender=SequentialGreedyRecommender(
-                            surrogate_model= strategy_functions_second[second_recomender], acquisition_function_cls=ACQ_FUNCTION
+                            surrogate_model= strategy_functions_second[second_recommender], acquisition_function_cls=ACQ_FUNCTION
                         ),)
                         # allow_repeated_recommendations=ALLOW_REPEATED_RECOMMENDATIONS,
                         # allow_recommending_already_measured=ALLOW_RECOMMENDING_ALREADY_MEASURED)
