@@ -111,7 +111,7 @@ def recommend_reactions(campaign, df, batch_quantity)-> pd.DataFrame:
                 recommendations[target_column] = None
         else:
             campaign_recreate.add_measurements(df)
-            recommendations = campaign_recreate.recommend(batch_quantity= batch_quantity)
+            recommendations = campaign_recreate.recommend(batch_size= batch_quantity)
             for target_column in target_names:
                 recommendations[target_column] = None
         
