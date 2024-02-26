@@ -76,7 +76,7 @@ def create_objective_fields(num_objective_variables):
 
 
 def upload_file(key):
-    uploaded_files = st.file_uploader("Choose a CSV file", key = key)
+    uploaded_files = st.file_uploader("Choose a " + key + " file", key = key)
     
     if uploaded_files is not None and uploaded_files.name.split('.')[1] == 'json':
         stringio = StringIO(uploaded_files.getvalue().decode("utf-8"))
@@ -92,7 +92,7 @@ def upload_file(key):
 def recommend_input():
     past_recommendation = st.checkbox('Do you have previous recommended reactions data')
     if past_recommendation:
-        df = upload_file(key= 'csv')
+        df = upload_file(key= 'Reactions data CSV')
         return df
         
 
@@ -150,7 +150,7 @@ def main():
         
     with tab2:
         st.header("Recommend Reactions")
-        campaign_previous = upload_file(key= 'json')
+        campaign_previous = upload_file(key= 'Campaign JSON')
         batch_quantity = st.number_input("Select **batch size**", min_value= 1, value= 1, key = 'batch')
         df = recommend_input()
         reactions, new_campaign = recommend_reactions(campaign_previous, df, batch_quantity)
