@@ -76,7 +76,7 @@ def create_objective_fields(num_objective_variables):
 
 
 def upload_file(key):
-    uploaded_files = st.file_uploader("Choose a CSV file", key = key)
+    uploaded_files = st.file_uploader("Choose a " + key + " file", key = key)
     
     if uploaded_files is not None and uploaded_files.name.split('.')[1] == 'json':
         stringio = StringIO(uploaded_files.getvalue().decode("utf-8"))
