@@ -89,7 +89,7 @@ def create_campaign(categorical_variables_dict, numerical_variables_dict, object
         mode = "SINGLE"
 
     objective = Objective(mode= mode,targets=objectives, weights= weights)
-    campaign = Campaign(searchspace=searchspace,objective=objective, strategy= strategy)
+    campaign = Campaign(searchspace=searchspace,objective=objective, recommender= strategy)
 
     return campaign.to_json()
 
