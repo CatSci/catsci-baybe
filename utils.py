@@ -96,7 +96,7 @@ def create_campaign(categorical_variables_dict, numerical_variables_dict, object
 
 
 
-def recommend_reactions(campaign, df, batch_quantity)-> pd.DataFrame:
+def recommend_reactions(campaign, df, batch_reactions)-> pd.DataFrame:
     recommendations = None
     campaign_recreate = None
     if campaign:
@@ -106,12 +106,12 @@ def recommend_reactions(campaign, df, batch_quantity)-> pd.DataFrame:
         target_names = [target["name"] for target in target_list]
 
         if df is None:
-            recommendations = campaign_recreate.recommend(batch_size= batch_quantity)
+            recommendations = campaign_recreate.recommend(batch_size= batch_reactions)
             for target_column in target_names:
                 recommendations[target_column] = None
         else:
             campaign_recreate.add_measurements(df)
-            recommendations = campaign_recreate.recommend(batch_size= batch_quantity)
+            recommendations = campaign_recreate.recommend(batch_size= batch_reactions)
             for target_column in target_names:
                 recommendations[target_column] = None
         

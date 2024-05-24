@@ -151,9 +151,9 @@ def main():
     with tab2:
         st.header("Recommend Reactions")
         campaign_previous = upload_file(key= 'Campaign JSON')
-        batch_quantity = st.number_input("Select **batch size**", min_value= 1, value= 1, key = 'batch')
+        batch_reactions = st.number_input("Select **batch size**", min_value= 1, value= 1, key = 'batch')
         df = recommend_input()
-        reactions, new_campaign = recommend_reactions(campaign_previous, df, batch_quantity)
+        reactions, new_campaign = recommend_reactions(campaign_previous, df, batch_reactions)
         if st.button("Get recommendations"):
             if reactions is not None and new_campaign is not None:
                 st.data_editor(reactions)
