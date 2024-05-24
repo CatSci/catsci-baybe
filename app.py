@@ -138,7 +138,7 @@ def main():
         strategy = TwoPhaseStrategy(
                         initial_recommender= strategy_functions_first[initial_recommender],
                         recommender=SequentialGreedyRecommender(
-                            surrogate_model= strategy_functions_second[second_recommender], acquisition_function_cls=ACQ_FUNCTION
+                            surrogate_model= strategy_functions_second[second_recommender], acquisition_function=ACQ_FUNCTION
                         ),)
                         # allow_repeated_recommendations=ALLOW_REPEATED_RECOMMENDATIONS,
                         # allow_recommending_already_measured=ALLOW_RECOMMENDING_ALREADY_MEASURED)
