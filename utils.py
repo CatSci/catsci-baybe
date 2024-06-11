@@ -1,5 +1,6 @@
 from baybe import Campaign
-from baybe.objective import Objective
+# from baybe.objective import Objective
+from baybe.objectives import SingleTargetObjective, DesirabilityObjective
 from baybe.parameters import NumericalDiscreteParameter, SubstanceParameter
 from baybe.searchspace import SearchSpace
 from baybe.targets import NumericalTarget
@@ -84,11 +85,13 @@ def create_campaign(categorical_variables_dict, numerical_variables_dict, object
     parameters, objectives = convert_params(categorical_variables_dict, numerical_variables_dict, objective_dict)
     searchspace = SearchSpace.from_product(parameters=parameters)
     if len(objectives) > 1:
-        mode = "DESIRABILITY"
+        # mode = "DESIRABILITY"
+        objective = DesirabilityObjective(targets = objectives, weights = weights)
+        # objective = 
     else:
-        mode = "SINGLE"
+        # mode = "SINGLE"
+        objective = SingleTargetObjective(target= objectives[0])
 
-    objective = Objective(mode= mode,targets=objectives, weights= weights)
     campaign = Campaign(searchspace=searchspace,objective=objective, recommender= strategy)
 
     return campaign.to_json()
@@ -102,7 +105,25 @@ def recommend_reactions(campaign, df, batch_reactions)-> pd.DataFrame:
     if campaign:
         campaign_recreate = Campaign.from_json(campaign)
         campaign_json = json.loads(campaign)
-        target_list = campaign_json.get("objective")["targets"]
+        # Retrieve the objective
+        objective = campaign_json.get("objective", {})
+
+        # Check for "target" and "targets" in the objective
+        if "target" in objective:
+            # If "target" is a dictionary, convert it to a list containing that dictionary
+            if isinstance(objective["target"], dict):
+                target_list = [objective["target"]]
+            else:
+                st.error("The target value is not a dictionary.")
+        elif "targets" in objective:
+            # If "targets" is a list, use it directly
+            if isinstance(objective["targets"], list):
+                target_list = objective["targets"]
+            else:
+                st.error("Error in objective")
+        
+
+        # target_list = campaign_json.get("objective")["targets"]
         target_names = [target["name"] for target in target_list]
 
         if df is None:

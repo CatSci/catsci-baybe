@@ -4,8 +4,8 @@ from baybe.searchspace import SearchSpace
 from baybe import Campaign
 from baybe.objective import Objective
 from baybe.targets import NumericalTarget
-from baybe.recommenders import RandomRecommender, FPSRecommender, KMeansClusteringRecommender, SequentialGreedyRecommender
-from baybe.strategies import TwoPhaseStrategy
+from baybe.recommenders import RandomRecommender, FPSRecommender, KMeansClusteringRecommender, SequentialGreedyRecommender, TwoPhaseMetaRecommender
+# from baybe.strategies import TwoPhaseStrategy
 from baybe.surrogates import (
     BayesianLinearSurrogate,
     GaussianProcessSurrogate,
@@ -135,7 +135,7 @@ def main():
         #     surrogate_model=strategy_functions_second[second_recomender],
         #     acquisition_function_cls=ACQ_FUNCTION)
             
-        strategy = TwoPhaseStrategy(
+        strategy = TwoPhaseMetaRecommender(
                         initial_recommender= strategy_functions_first[initial_recommender],
                         recommender=SequentialGreedyRecommender(
                             surrogate_model= strategy_functions_second[second_recommender], acquisition_function=ACQ_FUNCTION
@@ -144,7 +144,7 @@ def main():
                         # allow_recommending_already_measured=ALLOW_RECOMMENDING_ALREADY_MEASURED)
 
         if st.button('Create Scope'):
-            with st.spinner('Wait for it...'):                    
+            with st.spinner('Wait for it...'):                  
                 campaign_json = create_campaign(categorical_variables_dict, numerical_variables_dict, objective_dict, strategy, weights)
                 st.download_button("Download", campaign_json, file_name= 'campaign.json')
         
