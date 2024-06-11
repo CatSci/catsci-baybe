@@ -122,8 +122,8 @@ def recommend_reactions(campaign, df, batch_reactions)-> pd.DataFrame:
             else:
                 st.error("Error in objective")
         
-
-        # target_list = campaign_json.get("objective")["targets"]
+        st.write(target_list)
+   
         target_names = [target["name"] for target in target_list]
 
         if df is None:
