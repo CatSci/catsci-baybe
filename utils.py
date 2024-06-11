@@ -122,7 +122,7 @@ def recommend_reactions(campaign, df, batch_reactions)-> pd.DataFrame:
             else:
                 st.error("Error in objective")
         
-        st.write(target_list)
+        
    
         target_names = [target["name"] for target in target_list]
 
